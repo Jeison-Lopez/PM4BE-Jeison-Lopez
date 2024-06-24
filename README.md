@@ -57,4 +57,4 @@
 
 # Diagrama Entidad Relación
 
-![DER e-commerce](<./assets/Diagrama%20ER%20de%20base%20de%20datos%20(pata%20de%20gallo).png>)
+![DER e-commerce](<./assets/Diagrama ER de base de datos.png>)
