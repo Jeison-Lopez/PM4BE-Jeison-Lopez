@@ -24,6 +24,30 @@ const products: Product[] = [
 @Injectable()
 export class ProductsRepository {
   async getProducts(): Promise<Product[]> {
-    return await products;
+    return products;
+  }
+
+  async getProduct(id: string): Promise<Product | undefined> {
+    return products.find((product) => product.id === id);
+  }
+
+  async createProduct(product: Omit<Product, 'id'>): Promise<string> {
+    const id = (products.length + 1).toString();
+    products.push({ id, ...product });
+    return id;
+  }
+
+  async updateProduct(id: string, product: Partial<Product>): Promise<string> {
+    const index = products.findIndex((prod) => prod.id === id);
+    if (index === -1) return null;
+    products[index] = { ...products[index], ...product };
+    return id;
+  }
+
+  async deleteProduct(id: string): Promise<string> {
+    const index = products.findIndex((product) => product.id === id);
+    if (index === -1) return null;
+    products.splice(index, 1);
+    return id;
   }
 }
