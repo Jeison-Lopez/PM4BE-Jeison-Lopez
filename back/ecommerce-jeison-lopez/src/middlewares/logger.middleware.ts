@@ -1,12 +1,12 @@
-import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 
-@Injectable()
-export class LoggerMiddleware implements NestMiddleware {
-  use(req: Request, res: Response, next: NextFunction) {
-    console.log(
-      `[${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}] {${req.originalUrl}, ${req.method}}`,
-    );
-    next();
-  }
+export function LoggerMiddleware(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  console.log(
+    `[${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}] {${req.url}, ${req.method}}`,
+  );
+  next();
 }

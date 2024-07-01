@@ -4,6 +4,9 @@ import { UsersRepository } from '../users/users.repository';
 @Injectable()
 export class AuthService {
   constructor(private readonly usersRepository: UsersRepository) {}
+  getAuth() {
+    return 'Authenticating...';
+  }
 
   async signIn(email: string, password: string): Promise<string> {
     if (!email || !password) {
