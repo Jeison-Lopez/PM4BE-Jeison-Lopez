@@ -24,7 +24,7 @@ const products: Product[] = [
 @Injectable()
 export class ProductsRepository {
   async getProducts(): Promise<Product[]> {
-    return products;
+    return await products;
   }
 
   async getProduct(id: string): Promise<Product | undefined> {
