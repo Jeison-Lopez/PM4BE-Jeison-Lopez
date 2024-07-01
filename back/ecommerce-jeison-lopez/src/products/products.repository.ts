@@ -8,7 +8,7 @@ const products: Product[] = [
     name: 'Product One',
     description: 'Description for product one',
     price: 100,
-    stock: true,
+    stock: 1,
     imgUrl: 'http://example.com/img1.jpg',
   },
   {
@@ -16,15 +16,21 @@ const products: Product[] = [
     name: 'Product Two',
     description: 'Description for product two',
     price: 200,
-    stock: false,
+    stock: 1,
     imgUrl: 'http://example.com/img2.jpg',
   },
 ];
 
 @Injectable()
 export class ProductsRepository {
-  async getProducts(): Promise<Product[]> {
-    return await products;
+  async getProducts(page: number = 1, limit: number = 5): Promise<Product[]> {
+    // Calcula los índices de inicio y fin para la paginación
+    const startIndex = (page - 1) * limit;
+    const endIndex = startIndex + limit;
+
+    // Obtiene la porción del array de usuarios para la paginación y elimina el campo 'password'
+    const paginatedUsers = products.slice(startIndex, endIndex);
+    return await paginatedUsers;
   }
 
   async getProduct(id: string): Promise<Product | undefined> {

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable } from '@nestjs/common';
 import { User } from './user.entity';
 
@@ -26,7 +25,7 @@ const users: User[] = [
 
 @Injectable()
 export class UsersRepository {
-  getUsers(
+  async getUsers(
     page: number = 1,
     limit: number = 5,
   ): Promise<Omit<User, 'password'>[]> {
@@ -37,10 +36,9 @@ export class UsersRepository {
     // Obtiene la porción del array de usuarios para la paginación y elimina el campo 'password'
     const paginatedUsers = users
       .slice(startIndex, endIndex)
-      .map(({ password, ...user }) => user);
+      .map(({ password, ...userWithoutPassword }) => userWithoutPassword);
 
-    // Resuelve la promesa con los usuarios paginados
-    return Promise.resolve(paginatedUsers);
+    return await paginatedUsers;
   }
 
   async getUser(id: string): Promise<Omit<User, 'password'> | undefined> {

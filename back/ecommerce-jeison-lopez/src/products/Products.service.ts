@@ -6,8 +6,8 @@ import { Product } from './product.entity';
 export class ProductsService {
   constructor(private readonly productsRepository: ProductsRepository) {}
 
-  getProducts() {
-    return this.productsRepository.getProducts();
+  getProducts(page: number = 1, limit: number = 5) {
+    return this.productsRepository.getProducts(page, limit);
   }
 
   getProduct(id: string) {
