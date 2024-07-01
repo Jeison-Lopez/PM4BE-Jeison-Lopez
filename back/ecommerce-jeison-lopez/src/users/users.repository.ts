@@ -10,7 +10,7 @@ const users: User[] = [
     name: 'User One',
     password: 'password1',
     address: '123 Main St',
-    phone: '123-456-7890',
+    phone: '1234567890',
     country: 'Country1',
     city: 'City1',
   },
@@ -20,7 +20,7 @@ const users: User[] = [
     name: 'User Two',
     password: 'password2',
     address: '456 Elm St',
-    phone: '098-765-4321',
+    phone: '0987654321',
   },
 ];
 
