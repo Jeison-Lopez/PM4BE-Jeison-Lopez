@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseUUIDPipe,
   Post,
   Put,
   Query,
@@ -11,6 +12,7 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
+import { CreateUserDto } from './users.dto';
 
 @Controller('users')
 export class UsersController {
@@ -22,12 +24,12 @@ export class UsersController {
   }
   @UseGuards(AuthGuard)
   @Get(':id')
-  getUser(@Param('id') id: string) {
+  getUser(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.getUser(id);
   }
 
   @Post()
-  createUser(@Body() user: Omit<User, 'id'>) {
+  createUser(@Body() user: CreateUserDto) {
     if (
       !user.name ||
       !user.email ||
@@ -43,7 +45,10 @@ export class UsersController {
   }
   @UseGuards(AuthGuard)
   @Put(':id')
-  updateUser(@Param('id') id: string, @Body() user: Partial<User>) {
+  updateUser(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() user: Partial<User>,
+  ) {
     if (
       !user.name &&
       !user.email &&
@@ -59,7 +64,7 @@ export class UsersController {
   }
   @UseGuards(AuthGuard)
   @Delete(':id')
-  deleteUser(@Param('id') id: string) {
+  deleteUser(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.deleteUser(id);
   }
 }

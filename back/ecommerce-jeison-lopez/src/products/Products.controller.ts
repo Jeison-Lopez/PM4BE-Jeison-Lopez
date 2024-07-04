@@ -8,6 +8,7 @@ import {
   Body,
   UseGuards,
   Query,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
@@ -31,12 +32,15 @@ export class ProductsController {
   }
 
   @Get(':id')
-  getProduct(@Param('id') id: string) {
+  getProduct(@Param('id', ParseUUIDPipe) id: string) {
     return this.productsService.getProduct(id);
   }
   @UseGuards(AuthGuard)
   @Put(':id')
-  updateProduct(@Param('id') id: string, @Body() product: Products) {
+  updateProduct(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() product: Products,
+  ) {
     // Validación de al menos un campo a actualizar
     if (
       !product.name &&
@@ -53,7 +57,7 @@ export class ProductsController {
   }
   @UseGuards(AuthGuard)
   @Delete(':id')
-  deleteProduct(@Param('id') id: string) {
+  deleteProduct(@Param('id', ParseUUIDPipe) id: string) {
     return this.productsService.deleteProduct(id);
   }
 }
