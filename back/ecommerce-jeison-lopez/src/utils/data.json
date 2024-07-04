@@ -1,0 +1,66 @@
+[
+  {
+    "name": "Iphone 15",
+    "description": "The best smartphone in the world",
+    "price": 199.99,
+    "stock": 12,
+    "category": "smartphone",
+    "imgUrl": "https://example.com/images/iphone15.jpg"
+  },
+  {
+    "name": "Samsung Galaxy S23",
+    "description": "The best smartphone in the world",
+    "price": 150.0,
+    "stock": 12,
+    "category": "smartphone",
+    "imgUrl": "https://example.com/images/galaxys23.jpg"
+  },
+  {
+    "name": "Google Pixel 7",
+    "description": "A smartphone with pure Android experience",
+    "price": 120.99,
+    "stock": 20,
+    "category": "smartphone",
+    "imgUrl": "https://example.com/images/pixel7.jpg"
+  },
+  {
+    "name": "Sony WH-1000XM4",
+    "description": "Noise-cancelling wireless headphones",
+    "price": 350.0,
+    "stock": 25,
+    "category": "headphones",
+    "imgUrl": "https://example.com/images/wh1000xm4.jpg"
+  },
+  {
+    "name": "Apple MacBook Pro",
+    "description": "A high-performance laptop for professionals",
+    "price": 1200.5,
+    "stock": 5,
+    "category": "laptop",
+    "imgUrl": "https://example.com/images/macbookpro.jpg"
+  },
+  {
+    "name": "Dell XPS 13",
+    "description": "A compact and powerful laptop",
+    "price": 999.99,
+    "stock": 8,
+    "category": "laptop",
+    "imgUrl": "https://example.com/images/xps13.jpg"
+  },
+  {
+    "name": "Samsung QLED TV",
+    "description": "A stunning QLED TV with vibrant colors",
+    "price": 850.75,
+    "stock": 10,
+    "category": "television",
+    "imgUrl": "https://example.com/images/qledtv.jpg"
+  },
+  {
+    "name": "Sony PlayStation 5",
+    "description": "The latest generation gaming console",
+    "price": 499.99,
+    "stock": 30,
+    "category": "gaming console",
+    "imgUrl": "https://example.com/images/ps5.jpg"
+  }
+]

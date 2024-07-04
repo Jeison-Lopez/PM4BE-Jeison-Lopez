@@ -4,12 +4,15 @@ import { Observable } from 'rxjs';
 
 function validate(request: Request) {
   const authHeader = request.headers?.authorization;
-  const auth = authHeader.split(' ')[1];
+  if (!authHeader) return false;
 
+  // Verificar que el header comience con 'Basic '
+  if (!authHeader.startsWith('Basic ')) return false;
+
+  const auth = authHeader.split(' ')[1];
   if (!auth) return false;
 
   const [email, password] = auth.split(':');
-
   if (!email || !password) return false;
 
   return true;

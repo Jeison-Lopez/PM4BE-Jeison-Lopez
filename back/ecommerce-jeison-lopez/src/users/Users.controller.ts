@@ -10,7 +10,6 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { User } from './user.entity';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 
 @Controller('users')
@@ -18,20 +17,17 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
   @UseGuards(AuthGuard)
   @Get()
-  async getUsers(
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 5,
-  ) {
+  getUsers(@Query('page') page: number = 1, @Query('limit') limit: number = 5) {
     return this.usersService.getUsers(page, limit);
   }
   @UseGuards(AuthGuard)
   @Get(':id')
-  async getUser(@Param('id') id: string) {
+  getUser(@Param('id') id: string) {
     return this.usersService.getUser(id);
   }
 
   @Post()
-  async createUser(@Body() user: Omit<User, 'id'>) {
+  createUser(@Body() user: Omit<User, 'id'>) {
     if (
       !user.name ||
       !user.email ||
@@ -43,11 +39,11 @@ export class UsersController {
         message: 'Faltan campos obligatorios',
       };
     }
-    return this.usersService.createUser(user);
+    return this.usersService.addUser(user);
   }
   @UseGuards(AuthGuard)
   @Put(':id')
-  async updateUser(@Param('id') id: string, @Body() user: Partial<User>) {
+  updateUser(@Param('id') id: string, @Body() user: Partial<User>) {
     if (
       !user.name &&
       !user.email &&
@@ -63,7 +59,7 @@ export class UsersController {
   }
   @UseGuards(AuthGuard)
   @Delete(':id')
-  async deleteUser(@Param('id') id: string) {
+  deleteUser(@Param('id') id: string) {
     return this.usersService.deleteUser(id);
   }
 }

@@ -1,27 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import { UsersRepository } from './users.repository';
-import { User } from './user.entity';
 
 @Injectable()
 export class UsersService {
   constructor(private readonly usersRepository: UsersRepository) {}
 
-  getUsers(
-    page: number = 1,
-    limit: number = 5,
-  ): Promise<Omit<User, 'password'>[]> {
+  getUsers(page: number = 1, limit: number = 5) {
     return this.usersRepository.getUsers(page, limit);
   }
 
   getUser(id: string) {
-    return this.usersRepository.getUser(id);
+    return this.usersRepository.getById(id);
   }
 
-  createUser(user: Omit<User, 'id'>) {
-    return this.usersRepository.createUser(user);
+  addUser(user: any) {
+    return this.usersRepository.addUser(user);
   }
 
-  updateUser(id: string, user: Partial<User>) {
+  updateUser(id: string, user: any) {
     return this.usersRepository.updateUser(id, user);
   }
 

@@ -1,59 +1,84 @@
 import { Injectable } from '@nestjs/common';
-import { Product } from './product.entity';
-
-// Products falsos.
-const products: Product[] = [
-  {
-    id: '1',
-    name: 'Product One',
-    description: 'Description for product one',
-    price: 100,
-    stock: 1,
-    imgUrl: 'http://example.com/img1.jpg',
-  },
-  {
-    id: '2',
-    name: 'Product Two',
-    description: 'Description for product two',
-    price: 200,
-    stock: 1,
-    imgUrl: 'http://example.com/img2.jpg',
-  },
-];
+import { InjectRepository } from '@nestjs/typeorm';
+import { Products } from 'src/entities/products.entity';
+import { Categories } from 'src/entities/categories.entity';
+import { Repository } from 'typeorm';
+import * as data from '../utils/data.json';
 
 @Injectable()
 export class ProductsRepository {
-  async getProducts(page: number = 1, limit: number = 5): Promise<Product[]> {
+  constructor(
+    @InjectRepository(Products)
+    private productsRepository: Repository<Products>,
+    @InjectRepository(Categories)
+    private categoriesRepository: Repository<Categories>,
+  ) {}
+
+  async getProducts(page: number = 1, limit: number = 5): Promise<Products[]> {
+    const products = await this.productsRepository.find({
+      relations: {
+        category: true,
+      },
+    });
+
     // Calcula los índices de inicio y fin para la paginación
     const startIndex = (page - 1) * limit;
     const endIndex = startIndex + limit;
 
-    // Obtiene la porción del array de usuarios para la paginación y elimina el campo 'password'
-    const paginatedUsers = products.slice(startIndex, endIndex);
-    return await paginatedUsers;
+    const paginatedProducts = products.slice(startIndex, endIndex);
+    return await paginatedProducts;
   }
 
-  async getProduct(id: string): Promise<Product | undefined> {
-    return products.find((product) => product.id === id);
+  async getProduct(id: string) {
+    const product = await this.productsRepository.findOneBy({ id });
+    if (!product) {
+      return `Producto con id ${id} no encontrado`;
+    }
+    return product;
   }
 
-  async createProduct(product: Omit<Product, 'id'>): Promise<string> {
-    const id = (products.length + 1).toString();
-    products.push({ id, ...product });
-    return id;
+  async addProducts() {
+    // Verificamos que exista la categoría.
+    const categories = await this.categoriesRepository.find();
+    data?.map(async (element) => {
+      const category = categories.find(
+        (category) => category.name === element.category,
+      );
+      // Creamos nuevo Product y seteamos atributos.
+      const product = new Products();
+      product.name = element.name;
+      product.description = element.description;
+      product.price = element.price;
+      product.imgUrl = element.imgUrl;
+      product.stock = element.stock;
+      product.category = category;
+      // Grabamos el nuevo Producto en la Base de Datos.
+      await this.productsRepository
+        .createQueryBuilder()
+        .insert()
+        .into(Products)
+        .values(product)
+        // Si el producto existe, lo actualizamos.
+        .orUpdate(['description', 'price', 'imgUrl', 'stock'], ['name'])
+        .execute();
+    });
+    return 'Productos agregados';
   }
 
-  async updateProduct(id: string, product: Partial<Product>): Promise<string> {
-    const index = products.findIndex((prod) => prod.id === id);
-    if (index === -1) return null;
-    products[index] = { ...products[index], ...product };
-    return id;
+  async updateProduct(id: string, product: Products) {
+    await this.productsRepository.update(id, product);
+    const updateProduct = await this.productsRepository.findOneBy({
+      id,
+    });
+    return updateProduct;
   }
 
   async deleteProduct(id: string): Promise<string> {
-    const index = products.findIndex((product) => product.id === id);
-    if (index === -1) return null;
-    products.splice(index, 1);
-    return id;
+    const product = await this.productsRepository.findOneBy({ id });
+    if (!product) {
+      return `Producto con id ${id} no encontrado`;
+    }
+    await this.productsRepository.delete(id);
+    return `Producto con id ${id} eliminado`;
   }
 }
