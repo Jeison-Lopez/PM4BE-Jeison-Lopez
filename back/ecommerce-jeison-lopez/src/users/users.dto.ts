@@ -7,7 +7,9 @@ import {
   Matches,
   MaxLength,
   MinLength,
+  Validate,
 } from 'class-validator';
+import { MatchPassword } from 'src/decorators/matchPassword.decorator';
 
 export class CreateUserDto {
   //id: string;
@@ -31,6 +33,10 @@ export class CreateUserDto {
       'La contraseña debe contener al menos una letra minúscula, una mayúscula, un numero y al menos un de los siguientes caracteres !@#$%^&*',
   })
   password: string;
+
+  @IsNotEmpty()
+  @Validate(MatchPassword, ['password'])
+  confirmPassword: string;
 
   @IsNotEmpty()
   @IsString()

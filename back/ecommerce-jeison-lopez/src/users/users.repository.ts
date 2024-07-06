@@ -31,9 +31,12 @@ export class UsersRepository {
     return userNoPassword;
   }
 
-  async addUser(user: Users) {
+  async addUser(user: Partial<Users>) {
     const newUser = await this.usersRepository.save(user);
-    const { password, ...userNoPassword } = newUser;
+
+    const dbUser = await this.usersRepository.findOneBy({ id: newUser.id });
+
+    const { password, ...userNoPassword } = dbUser;
     return userNoPassword;
   }
 

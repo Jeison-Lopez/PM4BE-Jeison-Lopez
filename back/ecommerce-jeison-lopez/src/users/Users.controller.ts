@@ -12,7 +12,6 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
-import { CreateUserDto } from './users.dto';
 
 @Controller('users')
 export class UsersController {
@@ -28,21 +27,22 @@ export class UsersController {
     return this.usersService.getUser(id);
   }
 
-  @Post()
-  createUser(@Body() user: CreateUserDto) {
-    if (
-      !user.name ||
-      !user.email ||
-      !user.password ||
-      !user.address ||
-      !user.phone
-    ) {
-      return {
-        message: 'Faltan campos obligatorios',
-      };
-    }
-    return this.usersService.addUser(user);
-  }
+  // @Post()
+  // createUser(@Body() user: CreateUserDto) {
+  //   if (
+  //     !user.name ||
+  //     !user.email ||
+  //     !user.password ||
+  //     !user.address ||
+  //     !user.phone
+  //   ) {
+  //     return {
+  //       message: 'Faltan campos obligatorios',
+  //     };
+  //   }
+  //   return this.usersService.addUser(user);
+  // }
+
   @UseGuards(AuthGuard)
   @Put(':id')
   updateUser(
