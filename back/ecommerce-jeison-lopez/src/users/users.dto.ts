@@ -1,6 +1,7 @@
 import { PickType } from '@nestjs/swagger';
 import {
   IsEmail,
+  IsEmpty,
   IsNotEmpty,
   IsNumber,
   IsString,
@@ -58,6 +59,9 @@ export class CreateUserDto {
   @MinLength(5)
   @MaxLength(20)
   city: string;
+
+  @IsEmpty()
+  isAdmin?: boolean;
 }
 
 export class LogginUserDto extends PickType(CreateUserDto, [

@@ -7,6 +7,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { Observable } from 'rxjs';
+import { Role } from 'src/users/roles.enum';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -29,6 +30,7 @@ export class AuthGuard implements CanActivate {
       }
       // Adjuntar fecha de expiracion
       user.exp = new Date(user.exp * 1000);
+      user.roles = user.isAdmin ? [Role.Admin] : [Role.User];
 
       request.user = user;
 

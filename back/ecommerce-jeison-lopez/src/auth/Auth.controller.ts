@@ -15,7 +15,9 @@ export class AuthController {
     return this.authService.signIn(email, password);
   }
   @Post('signup')
-  singUp(@Body() user: CreateUserDto) {
-    return this.authService.singUp(user);
+  async singUp(@Body() user: CreateUserDto) {
+    const createdUser = await this.authService.singUp(user);
+    const { isAdmin, ...response } = createdUser;
+    return response;
   }
 }
