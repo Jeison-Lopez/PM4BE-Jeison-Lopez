@@ -12,10 +12,12 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { FileUploadService } from './file-upload.service';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
-
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+@ApiTags('files')
 @Controller('files')
 export class FileUploadController {
   constructor(private readonly fileUploadService: FileUploadService) {}
+  @ApiBearerAuth()
   @UseGuards(AuthGuard)
   @Post('uploadImage/:id')
   //* Extraer imagen desde el formulario del Body del Request

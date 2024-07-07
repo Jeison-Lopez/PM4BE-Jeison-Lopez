@@ -15,18 +15,21 @@ import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { Role } from './roles.enum';
 import { Roles } from 'src/decorators/roles.decorator';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
-
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+@ApiTags('users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
+  @ApiBearerAuth()
   @Get()
   @Roles(Role.Admin)
   @UseGuards(AuthGuard, RolesGuard)
   getUsers(@Query('page') page: number = 1, @Query('limit') limit: number = 5) {
     return this.usersService.getUsers(page, limit);
   }
-  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @Get(':id')
+  @UseGuards(AuthGuard)
   getUser(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.getUser(id);
   }
@@ -46,7 +49,7 @@ export class UsersController {
   //   }
   //   return this.usersService.addUser(user);
   // }
-
+  @ApiBearerAuth()
   @UseGuards(AuthGuard)
   @Put(':id')
   updateUser(
@@ -66,9 +69,16 @@ export class UsersController {
     }
     return this.usersService.updateUser(id, user);
   }
+  @ApiBearerAuth()
   @UseGuards(AuthGuard)
   @Delete(':id')
   deleteUser(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.deleteUser(id);
+  }
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
+  @Get('test')
+  getTest() {
+    return 'Ruta de test para Rol user';
   }
 }
