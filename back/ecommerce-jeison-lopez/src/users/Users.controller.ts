@@ -16,6 +16,7 @@ import { Role } from './roles.enum';
 import { Roles } from 'src/decorators/roles.decorator';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { Users } from 'src/entities/users.entity';
 @ApiTags('users')
 @Controller('users')
 export class UsersController {
@@ -54,7 +55,7 @@ export class UsersController {
   @Put(':id')
   updateUser(
     @Param('id', ParseUUIDPipe) id: string,
-    @Body() user: Partial<User>,
+    @Body() user: Partial<Users>,
   ) {
     if (
       !user.name &&

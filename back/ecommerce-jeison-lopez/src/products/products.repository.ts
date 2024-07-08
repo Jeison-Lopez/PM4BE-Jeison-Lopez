@@ -21,7 +21,7 @@ export class ProductsRepository {
       },
     });
 
-    // Calcula los índices de inicio y fin para la paginación
+    // Calcular los índices de inicio y fin para la paginación
     const startIndex = (page - 1) * limit;
     const endIndex = startIndex + limit;
 
@@ -44,7 +44,7 @@ export class ProductsRepository {
       const category = categories.find(
         (category) => category.name === element.category,
       );
-      // Creamos nuevo Product y seteamos atributos.
+      // Creamos el nuevo Product y seteamos los atributos.
       const product = new Products();
       product.name = element.name;
       product.description = element.description;

@@ -3,7 +3,6 @@ import {
   Delete,
   Get,
   Param,
-  Post,
   Put,
   Body,
   UseGuards,
@@ -17,6 +16,7 @@ import { Roles } from 'src/decorators/roles.decorator';
 import { Role } from 'src/users/roles.enum';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+
 @ApiTags('products')
 @Controller('products')
 export class ProductsController {
@@ -39,15 +39,15 @@ export class ProductsController {
   getProduct(@Param('id', ParseUUIDPipe) id: string) {
     return this.productsService.getProduct(id);
   }
-  @ApiBearerAuth()
+
   @Put(':id')
+  @ApiBearerAuth()
   @Roles(Role.Admin)
   @UseGuards(AuthGuard, RolesGuard)
   updateProduct(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() product: Products,
   ) {
-    // Validación de al menos un campo a actualizar
     if (
       !product.name &&
       !product.description &&
@@ -61,9 +61,10 @@ export class ProductsController {
     }
     return this.productsService.updateProduct(id, product);
   }
+
+  @Delete(':id')
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
-  @Delete(':id')
   deleteProduct(@Param('id', ParseUUIDPipe) id: string) {
     return this.productsService.deleteProduct(id);
   }

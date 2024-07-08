@@ -10,6 +10,6 @@ export class OrdersService {
   }
 
   getOrder(id: string) {
-    return this.getOrder;
+    return this.ordersRepository.getOrder(id);
   }
 }

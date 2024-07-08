@@ -28,14 +28,10 @@ export class AuthService {
     const payload = { id: user.id, email: user.email, isAdmin: user.isAdmin };
     const token = this.jwtService.sign(payload);
 
-    // if (!user || user.password !== password) {
-    //   return 'Email o password incorrectos';
-    // }
-
     return { message: 'Usuario logueao', token };
   }
 
-  async singUp(user: Partial<Users>) {
+  async signUp(user: Partial<Users>) {
     const { email, password } = user;
 
     // Verificar que el email no se encuentre registrado

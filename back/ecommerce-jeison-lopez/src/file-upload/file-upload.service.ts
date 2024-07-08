@@ -24,6 +24,7 @@ export class FileUploadService {
     if (!response.secure_url) {
       throw new NotFoundException('Error al subir imagen en Cloudinary');
     }
+
     //* Actualizar imagen
     //! Manejar el error
     await this.productsRepository.update(productId, {
